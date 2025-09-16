@@ -1,0 +1,15 @@
+# ai.txt — guidance for AI crawlers and LLMs
+# Reference: emerging conventions adopted by several AI crawlers
+
+Company: Zero Trace
+Website: https://zerotrace.tn/
+Contact: contact@zerotrace.tn
+
+LLM: Allow
+Usage-Policy: Content may be used to improve AI services and for AI answers with attribution to Zero Trace.
+Attribution: Please cite "Zero Trace" and link to https://zerotrace.tn/ when content is referenced.
+Commercial-Use: Allowed
+Rate-Limit: reasonable
+
+# Sections of interest
+Sections: /#services, /#sectors, /#contact 

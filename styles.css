@@ -1,0 +1,371 @@
+/*
+  Zero Trace — Modern, responsive B2B website styles
+  Color system: clean white, trust blue, eco green, neutral gray
+*/
+
+:root {
+  --bg: #0b0f12;
+  --surface: #0f1419;
+  --card: #121a22;
+  --contrast: #0b1220;
+  --text: #e6eef6;
+  --muted: #9fb2c7;
+  --primary: #2ec27e; /* eco green */
+  --primary-600: #20a768;
+  --secondary: #4aa3ff; /* clean blue */
+  --secondary-600: #248aff;
+  --accent: #2ec27e;
+  --warning: #f5a524;
+  --danger: #ef476f;
+  --shadow: rgba(3, 8, 16, 0.6);
+  --radius: 16px;
+  --radius-sm: 12px;
+  --radius-xs: 10px;
+  --gap: 24px;
+  --container: 1200px;
+}
+
+/* Typography */
+html { scroll-behavior: smooth; }
+body {
+  margin: 0;
+  font-family: 'Inter', system-ui, -apple-system, Segoe UI, Roboto, 'Helvetica Neue', Arial, 'Noto Sans', 'Apple Color Emoji', 'Segoe UI Emoji';
+  color: var(--text);
+  background: linear-gradient(180deg, #0a0e12 0%, #0b1016 100%);
+  line-height: 1.6;
+}
+
+h1, h2, h3, h4 { font-family: 'Manrope', 'Inter', sans-serif; margin: 0 0 12px; line-height: 1.2; }
+h1.headline { font-size: clamp(2rem, 5vw, 3.5rem); letter-spacing: -0.02em; }
+h2 { font-size: clamp(1.5rem, 2.8vw, 2.25rem); }
+h3 { font-size: clamp(1.125rem, 2vw, 1.4rem); }
+
+p { margin: 0 0 16px; color: var(--muted); }
+.eyebrow { text-transform: uppercase; letter-spacing: .14em; color: var(--secondary); font-weight: 700; font-size: .8rem; }
+.muted { color: var(--muted); }
+.center { text-align: center; }
+.accent { color: var(--accent); }
+.section-intro { max-width: 720px; margin: 8px auto 32px; }
+
+/* Layout */
+.container { width: min(100%, var(--container)); margin: 0 auto; padding: 0 20px; }
+.section { position: relative; padding: 88px 0; }
+.section-slim { padding: 48px 0; }
+.bg-contrast { background: radial-gradient(1200px 800px at 50% -200px, rgba(36, 138, 255, .12), transparent),
+                           radial-gradient(900px 600px at 110% 10%, rgba(46, 194, 126, .12), transparent);
+}
+
+/* Header / Nav */
+.header { position: sticky; top: 0; z-index: 3000; backdrop-filter: saturate(120%) blur(10px); background: rgba(10, 14, 18, .6); border-bottom: 1px solid rgba(255,255,255,.06); }
+.nav-container { display: flex; align-items: center; justify-content: space-between; height: 72px; }
+.logo { display: inline-flex; align-items: center; gap: 10px; color: var(--text); text-decoration: none; font-weight: 700; }
+.logo-mark { display:inline-grid; place-items:center; width: 36px; height: 36px; border-radius: 10px; background: linear-gradient(135deg, var(--primary), var(--secondary)); color: #081018; font-weight: 900; }
+.logo-text strong { color: var(--primary); }
+
+.nav .nav-menu { display: flex; gap: 18px; list-style: none; margin: 0; padding: 0; align-items: center; }
+.nav .nav-menu a { color: var(--text); text-decoration: none; font-weight: 600; padding: 10px 12px; border-radius: 10px; transition: background .2s ease, color .2s ease; }
+.nav .nav-menu a:hover { background: rgba(255,255,255,.06); }
+.nav .btn.btn-sm { padding: 10px 14px; background: var(--primary); color: #061015; }
+.nav-toggle { display: none; background: transparent; border: 0; padding: 8px; border-radius: 8px; }
+.nav-toggle .bar { display:block; width: 24px; height: 2px; background: var(--text); margin: 5px 0; transition: transform .2s ease; }
+
+/* Hero */
+.hero { min-height: 86vh; display: grid; align-items: center; overflow: hidden; }
+.hero-inner { position: relative; z-index: 2; }
+.hero-media { position: absolute; inset: 0; background-image: linear-gradient(rgba(5,10,16,.6), rgba(5,10,16,.8)), url('https://images.unsplash.com/photo-1581094271901-8022df4466f3?q=80&w=2400&auto=format&fit=crop'); background-size: cover; background-position: center; filter: saturate(1.05); }
+.hero-gradient { position: absolute; inset: auto 0 0 0; height: 260px; background: linear-gradient(to bottom, rgba(10,14,18,0), rgba(10,14,18,1)); z-index: 1; }
+.subhead { max-width: 800px; }
+.hero-ctas { display: flex; gap: 12px; margin: 22px 0; }
+.hero-badges { display: flex; flex-wrap: wrap; gap: 10px; }
+.hero-badges span { background: rgba(255,255,255,.06); border: 1px solid rgba(255,255,255,.08); padding: 8px 12px; border-radius: 999px; font-size: .9rem; color: var(--text); }
+
+/* Split */
+.section-split .grid-2 { display: grid; grid-template-columns: 1.1fr .9fr; gap: 34px; align-items: stretch; }
+.split-media { min-height: 360px; border-radius: var(--radius); background: url('https://images.unsplash.com/photo-1563453392212-326f5c92cbb3?q=80&w=1600&auto=format&fit=crop') center/cover; position: relative; box-shadow: 0 30px 60px -20px var(--shadow); height: 100%; }
+.split-media::after { content:""; position:absolute; inset:0; border-radius: inherit; background: linear-gradient(135deg, rgba(36,138,255,.16), rgba(46,194,126,.16)); mix-blend-mode: overlay; }
+/* If a sector-media is used inside the split layout, make it match column height */
+.section-split .sector-media { height: 100%; min-height: 360px; border-radius: var(--radius); }
+
+/* Cards */
+.cards { display: grid; grid-template-columns: repeat(12, 1fr); gap: 20px; }
+.cards.services .card { grid-column: span 4; }
+.cards.sectors .card { grid-column: span 3; }
+
+.card { background: linear-gradient(180deg, rgba(255,255,255,.04), rgba(255,255,255,.02)); border: 1px solid rgba(255,255,255,.08); border-radius: var(--radius); padding: 22px; box-shadow: 0 20px 50px -20px var(--shadow); position: relative; overflow: hidden; transition: transform .25s ease, border-color .25s ease, box-shadow .25s ease; }
+.card:hover { transform: translateY(-4px); border-color: rgba(255,255,255,.18); box-shadow: 0 30px 70px -30px rgba(0,0,0,.6); }
+.card .icon { font-size: 26px; background: rgba(255,255,255,.06); width: 46px; height: 46px; display: grid; place-items: center; border-radius: 12px; margin-bottom: 10px; }
+.card h3 { margin: 6px 0 6px; }
+.card p { color: var(--muted); }
+
+/* Sector card image */
+.sector-media { width: 100%; height: 140px; border-radius: 14px; background: var(--card) center/cover; background-image: var(--img); margin-bottom: 12px; position: relative; }
+.sector-media::after { content:""; position:absolute; inset:0; border-radius: inherit; background: linear-gradient(180deg, rgba(0,0,0,.0), rgba(0,0,0,.35)); }
+
+/* Lists */
+.checklist { list-style: none; padding: 0; margin: 14px 0 0; }
+.checklist li { margin: 10px 0; padding-left: 28px; position: relative; }
+.checklist li::before { content:""; position: absolute; left: 0; top: 8px; width: 16px; height: 16px; border-radius: 5px; background: linear-gradient(135deg, var(--primary), var(--secondary)); box-shadow: 0 6px 18px -6px rgba(46,194,126,.7); }
+
+.benefits { list-style: none; padding: 0; margin: 0; display: grid; gap: 10px; }
+.benefits li { background: rgba(255,255,255,.04); border: 1px solid rgba(255,255,255,.08); padding: 12px 14px; border-radius: 12px; }
+
+.highlight-card { background: radial-gradient(600px 400px at 20% 0%, rgba(36, 138, 255, .18), transparent), radial-gradient(600px 400px at 100% 60%, rgba(46, 194, 126, .18), transparent), linear-gradient(180deg, rgba(255,255,255,.06), rgba(255,255,255,.03)); border: 1px solid rgba(255,255,255,.12); border-radius: var(--radius); padding: 22px; box-shadow: 0 30px 70px -40px var(--shadow); }
+.highlight-card .btn { margin-top: 10px; }
+
+/* Contact */
+.contact-grid { display: grid; grid-template-columns: 1fr 1.2fr; gap: 26px; align-items: stretch; }
+.contact-info { background: transparent; border: 0; border-radius: 0; padding: 0; box-shadow: none; display: flex; flex-direction: column; height: 100%; }
+.contact-info .contact-list { list-style: none; padding: 0; margin: 16px 0 0; display: grid; gap: 8px; }
+.contact-info .contact-list li { display: flex; align-items: center; gap: 10px; color: var(--muted); }
+.contact-info .socials a { display:inline-flex; align-items:center; justify-content:center; width: 32px; height: 32px; border-radius: 8px; background: rgba(255,255,255,.06); color: var(--text); text-decoration: none; font-weight: 700; }
+
+.contact-form { background: linear-gradient(180deg, rgba(255,255,255,.04), rgba(255,255,255,.02)); border: 1px solid rgba(255,255,255,.1); border-radius: var(--radius); padding: 18px; box-shadow: 0 20px 60px -30px var(--shadow); overflow: hidden; display: flex; flex-direction: column; height: 100%; }
+.form-row { display: grid; grid-template-columns: 1fr 1fr; gap: 14px; min-width: 0; }
+.form-field { display: grid; gap: 8px; }
+label { font-weight: 600; }
+input, textarea { width: 100%; padding: 12px 14px; border-radius: 12px; border: 1px solid rgba(255,255,255,.14); background: rgba(6,12,18,.6); color: var(--text); outline: none; transition: border .2s ease, box-shadow .2s ease; min-width: 0; }
+input::placeholder, textarea::placeholder { color: #7f92a6; }
+input:focus, textarea:focus { border-color: var(--secondary); box-shadow: 0 0 0 3px rgba(36,138,255,.2); }
+.error { color: var(--danger); min-height: 16px; font-size: .85rem; }
+.form-status { margin-top: 10px; font-weight: 600; }
+
+/* Tweak map spacing inside contact-info and remove manual <br> */
+.contact-info .map-card { margin-top: 12px; }
+.contact-info > br { display: none; }
+
+/* Buttons */
+.btn { display: inline-flex; align-items: center; justify-content: center; gap: 8px; border-radius: 12px; padding: 12px 16px; font-weight: 700; text-decoration: none; cursor: pointer; border: 1px solid transparent; transition: transform .15s ease, background .2s ease, border-color .2s ease, box-shadow .2s ease; }
+.btn:hover { transform: translateY(-1px); }
+.btn:active { transform: translateY(0); }
+.btn-primary { background: linear-gradient(135deg, var(--primary), var(--secondary)); color: #081018; border-color: rgba(255,255,255,.16); box-shadow: 0 12px 26px -10px rgba(36,138,255,.4); }
+.btn-primary:hover { box-shadow: 0 18px 36px -14px rgba(36,138,255,.55); }
+.btn-outline { background: transparent; color: var(--text); border-color: rgba(255,255,255,.16); }
+.btn-outline:hover { background: rgba(255,255,255,.06); }
+.btn-block { width: 100%; }
+
+/* Footer */
+.footer { border-top: 1px solid rgba(255,255,255,.06); background: rgba(10,14,18,.6); backdrop-filter: blur(10px); }
+.footer-inner { display: flex; align-items: center; justify-content: space-between; gap: 12px; padding: 22px 0; }
+.footer-brand { display: inline-flex; align-items: center; gap: 10px; }
+.footer .logo-mark { width: 28px; height: 28px; border-radius: 8px; background: linear-gradient(135deg, var(--primary), var(--secondary)); display: grid; place-items: center; color: #081018; font-weight: 900; }
+
+/* Back to top button */
+#backToTop { position: fixed; right: 16px; bottom: 16px; width: 44px; height: 44px; border-radius: 12px; border: 1px solid rgba(255,255,255,.12); background: rgba(8,12,16,.75); color: var(--text); cursor: pointer; display: grid; place-items: center; box-shadow: 0 18px 40px -24px var(--shadow); opacity: 0; visibility: hidden; transform: translateY(8px); transition: opacity .2s ease, transform .2s ease, visibility .2s ease; z-index: 60; }
+#backToTop.show { opacity: 1; visibility: visible; transform: translateY(0); }
+
+/* Animations */
+.reveal-up { opacity: 0; transform: translateY(14px); }
+.reveal-left { opacity: 0; transform: translateX(-18px); }
+.reveal-right { opacity: 0; transform: translateX(18px); }
+.revealed { animation: reveal .7s cubic-bezier(.22,1,.36,1) forwards; }
+@keyframes reveal { to { opacity: 1; transform: none; } }
+
+/* Responsive */
+@media (max-width: 1024px) {
+  .section-split .grid-2 { grid-template-columns: 1fr; }
+  .section-split .split-media, .section-split .sector-media { height: 320px; }
+}
+
+@media (max-width: 900px) {
+  .cards.services .card { grid-column: span 6; }
+  .cards.sectors .card { grid-column: span 6; }
+  .contact-grid { grid-template-columns: 1fr; }
+  .nav .nav-menu { position: fixed; inset: 72px 12px auto 12px; background: rgba(10,14,18,.95); backdrop-filter: blur(12px); border: 1px solid rgba(255,255,255,.12); border-radius: 14px; padding: 12px; display: grid; gap: 6px; transform-origin: top right; transform: scale(.98); opacity: 0; pointer-events: none; }
+  .nav.open .nav-menu { opacity: 1; transform: scale(1); pointer-events: auto; }
+  .nav-toggle { display: block; }
+}
+
+@media (max-width: 640px) {
+  .cards.services .card { grid-column: span 12; }
+  .cards.sectors .card { grid-column: span 12; }
+  .hero { min-height: 76vh; }
+  .hero-ctas { flex-direction: column; align-items: stretch; }
+  .form-row { grid-template-columns: 1fr; }
+
+  /* Map card */
+  .map-embed { padding-bottom: 60%; }
+} 
+
+/* Global box sizing to fix input overflow */
+*, *::before, *::after { box-sizing: border-box; }
+
+/* Service media images */
+.service-media { width: 100%; height: 140px; border-radius: 14px; background: #0c1218 center/cover; background-image: var(--img); margin-bottom: 12px; position: relative; }
+.service-media::after { content:""; position:absolute; inset:0; border-radius: inherit; background: linear-gradient(180deg, rgba(0,0,0,.0), rgba(0,0,0,.28)); }
+
+/* Tighter form layout control for right column issues */
+.contact-form { overflow: hidden; }
+.form-row { min-width: 0; }
+.form-field input, .form-field textarea { min-width: 0; width: 100%; }
+
+/* Map provider actions */
+.map-header { gap: 12px; }
+.map-actions { display: inline-flex; gap: 8px; align-items: center; }
+.btn.btn-xs { padding: 8px 10px; font-size: .85rem; border-radius: 10px; }
+
+/* Hidden utility */
+.hidden { display: none !important; } 
+
+/* Clients grid */
+.cards.clients { grid-template-columns: repeat(12, 1fr); }
+.client-card { grid-column: span 3; display: grid; align-items: start; gap: 10px; background: linear-gradient(180deg, rgba(255,255,255,.04), rgba(255,255,255,.02)); border: 1px solid rgba(255,255,255,.08); border-radius: var(--radius); padding: 18px; text-align: left; }
+.client-logo { width: 56px; height: 56px; border-radius: 14px; background: linear-gradient(135deg, var(--primary), var(--secondary)); color: #081018; font-weight: 900; display: grid; place-items: center; box-shadow: 0 14px 32px -16px rgba(36,138,255,.5); }
+
+@media (max-width: 900px) {
+  .client-card { grid-column: span 6; }
+}
+@media (max-width: 640px) {
+  .client-card { grid-column: span 12; }
+} 
+
+/* Language selector */
+.lang select { appearance: none; background: rgba(255,255,255,.06); color: var(--text); border: 1px solid rgba(255,255,255,.12); padding: 8px 10px; border-radius: 10px; font-weight: 700; }
+.sr-only { position: absolute; width: 1px; height: 1px; padding: 0; margin: -1px; overflow: hidden; clip: rect(0,0,0,0); border: 0; }
+
+/* RTL support */
+html[dir="rtl"] body { direction: rtl; }
+html[dir="rtl"] .nav .nav-menu { flex-direction: row-reverse; }
+html[dir="rtl"] .hero-ctas { flex-direction: row-reverse; }
+html[dir="rtl"] .contact-grid { grid-template-columns: 1.2fr 1fr; }
+html[dir="rtl"] .checklist li { padding-left: 0; padding-right: 28px; }
+html[dir="rtl"] .checklist li::before { left: auto; right: 0; } 
+
+/* Flag language switcher */
+.lang-switch { position: relative; margin-left: 12px; }
+.lang-btn { display: inline-flex; align-items: center; gap: 6px; background: rgba(255,255,255,.06); color: var(--text); border: 1px solid rgba(255,255,255,.12); padding: 8px 10px; border-radius: 10px; cursor: pointer; }
+.lang-btn:focus { outline: 2px solid rgba(36,138,255,.4); outline-offset: 2px; }
+.lang-menu { position: absolute; right: 0; top: calc(100% + 6px); background: rgba(10,14,18,.98); backdrop-filter: blur(8px); border: 1px solid rgba(255,255,255,.12); border-radius: 10px; padding: 6px; list-style: none; margin: 0; display: none; min-width: 160px; z-index: 60; }
+.lang-menu.show { display: block; }
+.lang-menu li { display: flex; align-items: center; gap: 8px; padding: 8px 10px; border-radius: 8px; cursor: pointer; color: var(--text); }
+.lang-menu li:hover { background: rgba(255,255,255,.08); }
+
+/* Ensure nav contents stay on one line and align center */
+.nav { display: flex; align-items: center; gap: 12px; flex-wrap: nowrap; }
+.nav .nav-menu { flex: 1 1 auto; }
+.lang-switch { display: inline-flex; flex: 0 0 auto; align-self: center; }
+
+/* RTL: place language switcher to the left of the menu, keep inline */
+html[dir="rtl"] .nav { display: flex; align-items: center; gap: 12px; flex-wrap: nowrap; }
+html[dir="rtl"] .nav .lang-switch { order: -1; margin-right: 12px; margin-left: 0; align-self: center; }
+html[dir="rtl"] .nav .nav-menu { order: 0; flex: 1 1 auto; }
+
+/* RTL: dropdown alignment */
+html[dir="rtl"] .lang-menu { left: 0; right: auto; }
+
+/* RTL: move switcher to left side automatically */
+html[dir="rtl"] .nav-container > .lang-switch { position: static; }
+html[dir="rtl"] .lang-switch { margin-left: 8px; }
+html[dir="rtl"] .lang-switch { margin-left: 0; margin-right: 8px; } 
+
+/* RTL form fixes */
+html[dir="rtl"] .contact-form { direction: rtl; }
+html[dir="rtl"] .contact-form label { text-align: right; }
+html[dir="rtl"] .contact-form .form-status { text-align: right; }
+html[dir="rtl"] .contact-form .error { text-align: right; }
+html[dir="rtl"] .contact-info .contact-list li { flex-direction: row-reverse; }
+
+/* Input alignment for RTL; keep email/phone LTR */
+html[dir="rtl"] input, html[dir="rtl"] textarea { text-align: right; }
+html[dir="rtl"] input[type="email"], html[dir="rtl"] input[type="tel"] { direction: ltr; text-align: left; }
+
+/* Make placeholders follow text alignment */
+input::placeholder, textarea::placeholder { text-align: inherit; }
+
+/* Prevent button text from breaking awkwardly in Arabic */
+.btn { white-space: nowrap; }
+
+@media (max-width: 640px) {
+  html[dir="rtl"] .contact-form { direction: rtl; }
+  html[dir="rtl"] .form-row { grid-template-columns: 1fr; }
+} 
+
+@media (max-width: 900px) {
+  html[dir="rtl"] .contact-grid { grid-template-columns: 1fr !important; }
+} 
+
+/* RTL alignment for contact list */
+html[dir="rtl"] .contact-info .contact-list { justify-items: end; text-align: right; }
+html[dir="rtl"] .contact-info .contact-list li { justify-content: flex-end; }
+html[dir="rtl"] .contact-info .contact-list li span:first-child { margin-left: 8px; margin-right: 0; }
+html[dir="rtl"] .contact-info .socials { justify-content: flex-end; } 
+
+/* RTL: align whole contact info column and socials row to the right */
+html[dir="rtl"] .contact-info { text-align: right; }
+html[dir="rtl"] .contact-info .socials { display: flex; justify-content: flex-end; gap: 8px; } 
+
+/* Force RTL alignment for contact list */
+html[dir="rtl"] .contact-info .contact-list { text-align: right !important; justify-items: end !important; }
+html[dir="rtl"] .contact-info .contact-list li { display: flex !important; flex-direction: row-reverse !important; justify-content: flex-start !important; }
+html[dir="rtl"] .contact-info .contact-list li span:first-child { margin-left: 8px !important; margin-right: 0 !important; }
+html[dir="rtl"] .contact-info .socials { display: flex !important; justify-content: flex-end !important; gap: 8px; } 
+
+/* Stronger RTL push to right for each contact row */
+html[dir="rtl"] .contact-info .contact-list li { justify-content: flex-end !important; }
+html[dir="rtl"] .contact-info .contact-list li span:first-child { margin-right: 0 !important; margin-left: 8px !important; }
+html[dir="rtl"] .contact-info .contact-list { justify-content: end !important; } 
+
+/* RTL: make each contact row stick to the right edge */
+html[dir="rtl"] .contact-info .contact-list { width: 100%; justify-items: end !important; }
+html[dir="rtl"] .contact-info .contact-list li { justify-self: end !important; } 
+
+/* RTL: shift entire contact-info column content to the right edge */
+html[dir="rtl"] .contact-info { align-items: flex-end !important; }
+html[dir="rtl"] .contact-info > * { align-self: flex-end !important; } 
+
+/* RTL: put contact-info on the right (desktop/tablet), keep it above form on mobile */
+html[dir="rtl"] .contact-info { order: 2; }
+html[dir="rtl"] .contact-form { order: 1; }
+@media (max-width: 900px) {
+  html[dir="rtl"] .contact-info { order: 1; }
+  html[dir="rtl"] .contact-form { order: 2; }
+}
+
+/* RTL: flip icon/text order inside contact list and align right */
+html[dir="rtl"] .contact-info .contact-list li { flex-direction: row-reverse !important; text-align: right !important; }
+html[dir="rtl"] .contact-info .contact-list { text-align: right !important; } 
+
+/* RTL: force LTR rendering for phone and email lines, keep digits consistent */
+html[dir="rtl"] .contact-info .contact-list li:nth-child(2),
+html[dir="rtl"] .contact-info .contact-list li:nth-child(3) { direction: ltr !important; text-align: right; unicode-bidi: plaintext; }
+
+/* Use tabular numerals for steadier spacing */
+.contact-info .contact-list li { font-variant-numeric: tabular-nums; } 
+
+/* RTL: keep phone and email rows with icon on the left and LTR text */
+html[dir="rtl"] .contact-info .contact-list li:nth-child(2),
+html[dir="rtl"] .contact-info .contact-list li:nth-child(3) {
+  flex-direction: row !important; /* icon left, text right of it */
+  direction: ltr !important;      /* render numbers/emails LTR */
+  text-align: left !important;
+  justify-content: flex-start !important;
+}
+
+/* For other rows (like address), allow RTL flipping */
+html[dir="rtl"] .contact-info .contact-list li:not(:nth-child(2)):not(:nth-child(3)) {
+  flex-direction: row-reverse !important;
+  text-align: right !important;
+} 
+
+/* AR only: place language switcher to the left of the menu, inline (fix selector) */
+html[lang="ar"] .nav { display: flex; align-items: center; gap: 12px; flex-wrap: nowrap; }
+html[lang="ar"] .nav > .lang-switch { order: -1 !important; margin-right: 12px !important; margin-left: 0 !important; align-self: center; }
+html[lang="ar"] .nav > .nav-menu { order: 0 !important; flex: 1 1 auto; } 
+
+/* Arabic layout: put language switcher before menu, aligned right */
+html[lang="ar"] .nav { display: flex; align-items: center; gap: 12px; flex-wrap: nowrap; justify-content: flex-end; }
+html[lang="ar"] .nav .lang-switch { order: 0 !important; margin-right: 12px !important; margin-left: 0 !important; }
+html[lang="ar"] .nav .nav-menu { order: 1 !important; } 
+
+/* AR: force language switcher before menu with high specificity */
+html[lang="ar"] header.header .nav { display: flex; align-items: center; gap: 12px; flex-wrap: nowrap; justify-content: flex-end; }
+html[lang="ar"] header.header .nav .lang-switch { order: -1 !important; margin-right: 12px !important; margin-left: 0 !important; align-self: center; }
+html[lang="ar"] header.header .nav .nav-menu { order: 0 !important; } 
+
+/* AR: reverse flex order inside nav so lang-switch comes before menu */
+html[lang="ar"] header.header .nav { flex-direction: row-reverse !important; justify-content: flex-start; }
+html[lang="ar"] header.header .nav .nav-menu { margin-inline-start: 12px; } 
+
+/* Loader for submit button */
+.btn.loading { position: relative; pointer-events: none; opacity: .85; }
+.btn.loading::after { content: ""; position: absolute; right: 12px; width: 16px; height: 16px; border-radius: 50%; border: 2px solid rgba(255,255,255,.5); border-top-color: rgba(255,255,255,1); animation: spin .7s linear infinite; }
+@keyframes spin { to { transform: rotate(360deg); } } 

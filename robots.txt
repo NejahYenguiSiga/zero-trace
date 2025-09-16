@@ -1,0 +1,16 @@
+User-agent: *
+Allow: /
+
+# Explicit allow for major AI crawlers
+User-agent: Google-Extended
+Allow: /
+User-agent: GPTBot
+Allow: /
+User-agent: CCBot
+Allow: /
+User-agent: anthropic-ai
+Allow: /
+User-agent: PerplexityBot
+Allow: /
+
+Sitemap: https://zerotrace.tn/sitemap.xml 
