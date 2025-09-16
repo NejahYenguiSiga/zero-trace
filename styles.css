@@ -232,6 +232,8 @@ input:focus, textarea:focus { border-color: var(--secondary); box-shadow: 0 0 0 
 @media (max-width: 1024px) {
   .section-split .grid-2 { grid-template-columns: 1fr; }
   .section-split .split-media, .section-split .sector-media { height: 320px; }
+  /* Map card */
+  .map-embed { padding-bottom: 5%; }
 }
 
 @media (max-width: 900px) {
@@ -241,6 +243,8 @@ input:focus, textarea:focus { border-color: var(--secondary); box-shadow: 0 0 0 
   .nav .nav-menu { position: fixed; inset: 72px 12px auto 12px; background: rgba(10,14,18,.95); backdrop-filter: blur(12px); border: 1px solid rgba(255,255,255,.12); border-radius: 14px; padding: 12px; display: grid; gap: 6px; transform-origin: top right; transform: scale(.98); opacity: 0; pointer-events: none; }
   .nav.open .nav-menu { opacity: 1; transform: scale(1); pointer-events: auto; }
   .nav-toggle { display: block; }
+  /* Map card */
+  .map-embed { padding-bottom: 7%; }
 }
 
 @media (max-width: 640px) {
@@ -576,7 +580,7 @@ html[data-theme="light"] .nav .btn.btn-sm:hover { background: #179c64; color: #f
 
 @media (max-width: 900px) {
 	/* Single source of truth for mobile map size */
-	.map-embed .map-frame { max-height: 260px !important; }
+	.map-embed .map-frame { max-height: 280px; }
 } 
 
 /* Contact grid: consistent columns across languages */
@@ -609,8 +613,8 @@ html[dir="rtl"] .contact-grid { grid-template-columns: 1fr 1.2fr; }
 .contact-grid { align-items: stretch; }
 .contact-info { display: flex; flex-direction: column; }
 .contact-info .map-card { margin-top: 12px; flex: 1 1 auto; display: flex; flex-direction: column; }
-.map-embed { flex: 1 1 auto; display: flex; }
-.map-embed .map-frame { flex: 1 1 auto; width: 100%; height: 100%; max-height: 420px; }
+.map-embed { flex: 1 1 auto; display: block; }
+.map-embed .map-frame { width: 100%; height: auto; aspect-ratio: 16 / 9; max-height: 420px; }
 
 @media (min-width: 1200px) {
 	.map-embed .map-frame { max-height: 460px; }
@@ -651,8 +655,8 @@ html[dir="rtl"] .section.contact .contact-form { direction: rtl; }
 	.contact-form { height: auto !important; }
 	.contact-info .map-card { margin: 12px 0 0 0 !important; display: block; height: auto !important; }
 	.map-embed { display: block; }
-	.map-embed .map-frame { width: 100%; height: auto; max-height: 300px; }
-} 
+		.map-embed .map-frame { width: 100%; height: auto; max-height: 280px; }
+}
 
 @media (max-width: 900px) {
 	.section.contact .contact-grid { grid-template-columns: 1fr !important; grid-template-areas: "info" "form" !important; row-gap: 0 !important; align-items: start !important; }
@@ -662,8 +666,8 @@ html[dir="rtl"] .section.contact .contact-form { direction: rtl; }
 	.contact-form { margin-top: 8px !important; }
 	.contact-info .map-card { margin: 0 !important; height: auto !important; }
 	.map-embed { margin: 0 !important; }
-	.map-embed .map-frame { width: 100%; height: auto; max-height: 280px; margin: 0 !important; }
-} 
+		.map-embed .map-frame { width: 100%; height: auto; max-height: 280px; margin: 0; }
+}
 
 @media (max-width: 900px) {
 	/* Reduce section padding to remove large vertical gap */
