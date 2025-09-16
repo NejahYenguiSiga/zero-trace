@@ -25,6 +25,67 @@
   --container: 1200px;
 }
 
+/* Light theme overrides */
+html[data-theme="light"] {
+  color-scheme: light;
+}
+html[data-theme="light"] :root,
+html[data-theme="light"] {
+  --bg: #f6f8fb;
+  --surface: #ffffff;
+  --card: #ffffff;
+  --contrast: #eef2f7;
+  --text: #0e1116;
+  --muted: #4a5b6d;
+  --primary: #1fae6f;
+  --primary-600: #0f8e5a;
+  --secondary: #2d7ff5;
+  --secondary-600: #1f60c3;
+  --accent: #1fae6f;
+  --shadow: rgba(10, 20, 30, 0.12);
+}
+
+/* Smooth theme transition */
+html, body, .card, .contact-form, .highlight-card, .nav, .header, .footer, .section, .btn, input, textarea {
+  transition: background-color .25s ease, color .25s ease, border-color .25s ease, box-shadow .25s ease;
+}
+
+/* Apply theme colors */
+html { scroll-behavior: smooth; }
+body {
+  margin: 0;
+  font-family: 'Inter', system-ui, -apple-system, Segoe UI, Roboto, 'Helvetica Neue', Arial, 'Noto Sans', 'Apple Color Emoji', 'Segoe UI Emoji';
+  color: var(--text);
+  background: linear-gradient(180deg, var(--bg) 0%, var(--contrast) 100%);
+  line-height: 1.6;
+}
+
+/* Header / Nav adjustments for light */
+html[data-theme="light"] .header { background: rgba(255,255,255,.7); border-bottom-color: rgba(0,0,0,.06); }
+html[data-theme="light"] .footer { background: rgba(255,255,255,.7); border-top-color: rgba(0,0,0,.06); }
+
+/* Cards and borders in light */
+html[data-theme="light"] .card { background: #ffffff; border-color: rgba(0,0,0,.08); box-shadow: 0 10px 30px -20px var(--shadow); }
+html[data-theme="light"] .contact-form { background: #ffffff; border-color: rgba(0,0,0,.1); }
+
+/* Hero media overlay subtle in light */
+html[data-theme="light"] .hero-media { filter: saturate(1); }
+html[data-theme="light"] .hero-badges span { background: rgba(0,0,0,.06); border-color: rgba(0,0,0,.08); color: var(--text); }
+
+/* Inputs in light */
+html[data-theme="light"] input, html[data-theme="light"] textarea { background: #ffffff; border-color: rgba(0,0,0,.14); color: var(--text); }
+
+/* Language/menu backgrounds in light */
+html[data-theme="light"] .lang-btn { background: rgba(0,0,0,.06); border-color: rgba(0,0,0,.12); color: var(--text); }
+html[data-theme="light"] .lang-menu { background: rgba(255,255,255,.98); border-color: rgba(0,0,0,.12); }
+html[data-theme="light"] .lang-menu li:hover { background: rgba(0,0,0,.06); }
+
+/* Back to top button in light */
+html[data-theme="light"] #backToTop { background: rgba(255,255,255,.9); border-color: rgba(0,0,0,.12); color: var(--text); }
+
+/* Ensure color scheme support */
+:root { color-scheme: dark; }
+
 /* Typography */
 html { scroll-behavior: smooth; }
 body {
@@ -380,3 +441,71 @@ img, video, iframe { max-width: 100%; height: auto; display: block; }
 .section { overflow-x: hidden; }
 .map-frame { width: 100%; border: 0; display: block; }
 @media (max-width: 400px) { .btn { white-space: normal; } } 
+
+html[data-theme="light"] body { background: #f6f8fb; }
+
+/* Light: adjust contrast backgrounds to be subtle and clean */
+html[data-theme="light"] .bg-contrast {
+	background: radial-gradient(1200px 800px at 50% -200px, rgba(45, 127, 245, .10), transparent),
+	            radial-gradient(900px 600px at 110% 10%, rgba(31, 174, 111, .10), transparent);
+}
+
+/* Light: navigation and links */
+html[data-theme="light"] .nav .nav-menu a { color: var(--text); }
+html[data-theme="light"] .nav .nav-menu a:hover { background: rgba(0,0,0,.06); }
+html[data-theme="light"] .nav .btn.btn-sm { background: var(--primary); color: #ffffff; }
+
+/* Light: hero overlays to keep text readable */
+html[data-theme="light"] .hero-media {
+	background-image: linear-gradient(rgba(255,255,255,.35), rgba(255,255,255,.6)), url('https://images.unsplash.com/photo-1581094271901-8022df4466f3?q=80&w=2400&auto=format&fit=crop');
+	filter: saturate(1);
+}
+html[data-theme="light"] .hero-gradient { background: linear-gradient(to bottom, rgba(255,255,255,0), rgba(255,255,255,1)); }
+
+/* Light: cards and badges */
+html[data-theme="light"] .card { background: #ffffff; border: 1px solid rgba(0,0,0,.08); }
+html[data-theme="light"] .card .icon { background: rgba(0,0,0,.06); }
+html[data-theme="light"] .hero-badges span { background: rgba(0,0,0,.06); border: 1px solid rgba(0,0,0,.08); color: var(--text); }
+
+/* Light: section media overlays lighter */
+html[data-theme="light"] .sector-media::after { background: linear-gradient(180deg, rgba(255,255,255,.0), rgba(255,255,255,.35)); }
+html[data-theme="light"] .service-media::after { background: linear-gradient(180deg, rgba(255,255,255,.0), rgba(255,255,255,.28)); }
+
+/* Light: outline buttons and inputs */
+html[data-theme="light"] .btn-outline { color: var(--text); border-color: rgba(0,0,0,.16); }
+html[data-theme="light"] .btn-outline:hover { background: rgba(0,0,0,.06); }
+html[data-theme="light"] input, html[data-theme="light"] textarea { background: #ffffff; border-color: rgba(0,0,0,.14); color: var(--text); }
+html[data-theme="light"] input::placeholder, html[data-theme="light"] textarea::placeholder { color: #6b7a89; }
+
+/* Light: header/footer surfaces */
+html[data-theme="light"] .header { backdrop-filter: saturate(120%) blur(10px); background: rgba(255,255,255,.75); border-bottom: 1px solid rgba(0,0,0,.06); }
+html[data-theme="light"] .footer { background: rgba(255,255,255,.8); border-top: 1px solid rgba(0,0,0,.06); }
+
+/* Light: language switch visuals */
+html[data-theme="light"] .lang-btn { background: rgba(0,0,0,.06); color: var(--text); border-color: rgba(0,0,0,.12); }
+html[data-theme="light"] .lang-menu { background: rgba(255,255,255,.98); border: 1px solid rgba(0,0,0,.12); }
+
+/* Light: back-to-top button */
+html[data-theme="light"] #backToTop { background: rgba(255,255,255,.9); border-color: rgba(0,0,0,.12); color: var(--text); }
+
+/* Light: checklist and benefits readability */
+html[data-theme="light"] .benefits li { background: rgba(0,0,0,.03); border: 1px solid rgba(0,0,0,.08); }
+html[data-theme="light"] .checklist li::before { box-shadow: 0 6px 18px -6px rgba(31,174,111,.35); } 
+
+/* Light: client cards */
+html[data-theme="light"] .client-card { background: #ffffff; border: 1px solid rgba(0,0,0,.10); box-shadow: 0 14px 30px -18px rgba(0,0,0,.18); color: var(--text); }
+html[data-theme="light"] .client-card:hover { border-color: rgba(0,0,0,.16); box-shadow: 0 18px 36px -18px rgba(0,0,0,.22); }
+html[data-theme="light"] .client-logo { box-shadow: 0 14px 28px -16px rgba(45, 127, 245, .35); color: #081018; } 
+
+.contact-info .socials a { transition: background .2s ease, color .2s ease, transform .15s ease, box-shadow .2s ease; }
+.contact-info .socials a:hover { transform: translateY(-2px); }
+.contact-info .socials a:focus-visible { outline: 2px solid var(--secondary); outline-offset: 2px; }
+/* Brand hovers */
+.contact-info .socials a[aria-label="LinkedIn"]:hover { background: #0a66c2; color: #ffffff; box-shadow: 0 8px 20px -10px rgba(10,102,194,.6); }
+.contact-info .socials a[aria-label="Twitter"]:hover { background: #1da1f2; color: #ffffff; box-shadow: 0 8px 20px -10px rgba(29,161,242,.6); }
+.contact-info .socials a[aria-label="Facebook"]:hover { background: #1877f2; color: #ffffff; box-shadow: 0 8px 20px -10px rgba(24,119,242,.6); } 
+
+html[data-theme="light"] .contact-info .socials a { background: rgba(0,0,0,.06); color: var(--text); border: 1px solid rgba(0,0,0,.08); box-shadow: 0 6px 16px -12px rgba(0,0,0,.25); } 
+
+/* Place theme toggle before language switcher in Arabic (RTL) */
+html[lang="ar"] header.header .nav #themeToggle { order: -2 !important; margin-right: 12px !important; margin-left: 0 !important; align-self: center; } 

@@ -1120,3 +1120,29 @@ if (!localStorage.getItem('site_lang')) {
     };
   }
 })(); 
+
+// Theme toggle (light/dark with system preference and persistence)
+(function initThemeToggle(){
+  const html = document.documentElement;
+  function applyTheme(theme){
+    if (theme === 'light') html.setAttribute('data-theme','light');
+    else html.removeAttribute('data-theme');
+    localStorage.setItem('site_theme', theme);
+  }
+  const saved = localStorage.getItem('site_theme');
+  if (saved) {
+    applyTheme(saved);
+  } else {
+    try {
+      const prefersLight = window.matchMedia && window.matchMedia('(prefers-color-scheme: light)').matches;
+      if (prefersLight) applyTheme('light');
+    } catch(_){}
+  }
+  const btn = document.getElementById('themeToggle');
+  if (btn) {
+    btn.addEventListener('click', () => {
+      const current = html.getAttribute('data-theme') === 'light' ? 'light' : 'dark';
+      applyTheme(current === 'light' ? 'dark' : 'light');
+    });
+  }
+})(); 
