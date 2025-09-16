@@ -302,12 +302,30 @@ if (form) {
     e.preventDefault();
     statusEl.textContent = '';
 
-    // Honeypot & time-to-submit
+    // Cooldown: block duplicate submissions within 60 minutes
+    const lastTs = Number(localStorage.getItem('last_submit_ts') || '0');
+    const COOLDOWN_MS = 60 * 60 * 1000;
+    if (Date.now() - lastTs < COOLDOWN_MS) {
+      const msg = 'We received your previous message. If you need to send another within the hour, please email us directly at contact@zerotrace.tn';
+      statusEl.textContent = (typeof t === 'function') ? msg : msg;
+      statusEl.style.color = '#ef476f';
+      return;
+    }
+
+    // Honeypots & time-to-submit
     const hp = document.getElementById('hp');
+    const hp2 = document.getElementById('hp2');
     const tsVal = (document.getElementById('ts') && document.getElementById('ts').value) || '';
     const elapsed = tsVal ? (Date.now() - Number(tsVal)) : 0;
-    if ((hp && hp.value && hp.value.trim().length > 0) || elapsed < 1500) {
+    if ((hp && hp.value && hp.value.trim().length > 0) || (hp2 && hp2.value && hp2.value.trim().length > 0) || elapsed < 1500) {
       statusEl.textContent = t('status.failed');
+      statusEl.style.color = '#ef476f';
+      return;
+    }
+
+    // Basic length caps to avoid abuse
+    if (form.message && form.message.value && form.message.value.length > 2000) {
+      statusEl.textContent = t('errors.messageShort');
       statusEl.style.color = '#ef476f';
       return;
     }
@@ -339,6 +357,10 @@ if (form) {
       statusEl.style.color = '#9fb2c7';
       const resp = await sendEmailWithEmailJS(templateParams);
       console.log('EmailJS SUCCESS', resp);
+
+      // Save cooldown
+      localStorage.setItem('last_submit_ts', String(Date.now()));
+
       // Fire-and-forget confirmation email
       try {
         const confirmParams = {

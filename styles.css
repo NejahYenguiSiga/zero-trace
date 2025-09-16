@@ -58,6 +58,7 @@ body {
   color: var(--text);
   background: linear-gradient(180deg, var(--bg) 0%, var(--contrast) 100%);
   line-height: 1.6;
+  padding-top: 72px;
 }
 
 /* Header / Nav adjustments for light */
@@ -94,6 +95,7 @@ body {
   color: var(--text);
   background: linear-gradient(180deg, #0a0e12 0%, #0b1016 100%);
   line-height: 1.6;
+  padding-top: 72px;
 }
 
 h1, h2, h3, h4 { font-family: 'Manrope', 'Inter', sans-serif; margin: 0 0 12px; line-height: 1.2; }
@@ -117,7 +119,7 @@ p { margin: 0 0 16px; color: var(--muted); }
 }
 
 /* Header / Nav */
-.header { position: sticky; top: 0; z-index: 3000; backdrop-filter: saturate(120%) blur(10px); background: rgba(10, 14, 18, .6); border-bottom: 1px solid rgba(255,255,255,.06); }
+.header { position: fixed; top: 0; left: 0; right: 0; z-index: 3000; backdrop-filter: saturate(120%) blur(10px); background: rgba(10, 14, 18, .6); border-bottom: 1px solid rgba(255,255,255,.06); }
 .nav-container { display: flex; align-items: center; justify-content: space-between; height: 72px; }
 .logo { display: inline-flex; align-items: center; gap: 10px; color: var(--text); text-decoration: none; font-weight: 700; }
 .logo-mark { display:inline-grid; place-items:center; width: 36px; height: 36px; border-radius: 10px; background: linear-gradient(135deg, var(--primary), var(--secondary)); color: #081018; font-weight: 900; }
@@ -290,7 +292,7 @@ input:focus, textarea:focus { border-color: var(--secondary); box-shadow: 0 0 0 
 
 /* RTL support */
 html[dir="rtl"] body { direction: rtl; }
-html[dir="rtl"] .nav .nav-menu { flex-direction: row-reverse; }
+html[dir="rtl"] .nav .nav-menu { flex-direction: row; }
 html[dir="rtl"] .hero-ctas { flex-direction: row-reverse; }
 html[dir="rtl"] .contact-grid { grid-template-columns: 1.2fr 1fr; }
 html[dir="rtl"] .checklist li { padding-left: 0; padding-right: 28px; }
@@ -412,24 +414,8 @@ html[dir="rtl"] .contact-info .contact-list li:not(:nth-child(2)):not(:nth-child
   text-align: right !important;
 } 
 
-/* AR only: place language switcher to the left of the menu, inline (fix selector) */
-html[lang="ar"] .nav { display: flex; align-items: center; gap: 12px; flex-wrap: nowrap; }
-html[lang="ar"] .nav > .lang-switch { order: -1 !important; margin-right: 12px !important; margin-left: 0 !important; align-self: center; }
-html[lang="ar"] .nav > .nav-menu { order: 0 !important; flex: 1 1 auto; } 
+/* Arabic-specific nav reordering removed to keep consistent LTR order across all languages. */
 
-/* Arabic layout: put language switcher before menu, aligned right */
-html[lang="ar"] .nav { display: flex; align-items: center; gap: 12px; flex-wrap: nowrap; justify-content: flex-end; }
-html[lang="ar"] .nav .lang-switch { order: 0 !important; margin-right: 12px !important; margin-left: 0 !important; }
-html[lang="ar"] .nav .nav-menu { order: 1 !important; } 
-
-/* AR: force language switcher before menu with high specificity */
-html[lang="ar"] header.header .nav { display: flex; align-items: center; gap: 12px; flex-wrap: nowrap; justify-content: flex-end; }
-html[lang="ar"] header.header .nav .lang-switch { order: -1 !important; margin-right: 12px !important; margin-left: 0 !important; align-self: center; }
-html[lang="ar"] header.header .nav .nav-menu { order: 0 !important; } 
-
-/* AR: reverse flex order inside nav so lang-switch comes before menu */
-html[lang="ar"] header.header .nav { flex-direction: row-reverse !important; justify-content: flex-start; }
-html[lang="ar"] header.header .nav .nav-menu { margin-inline-start: 12px; } 
 
 /* Loader for submit button */
 .btn.loading { position: relative; pointer-events: none; opacity: .85; }
@@ -478,7 +464,7 @@ html[data-theme="light"] input, html[data-theme="light"] textarea { background: 
 html[data-theme="light"] input::placeholder, html[data-theme="light"] textarea::placeholder { color: #6b7a89; }
 
 /* Light: header/footer surfaces */
-html[data-theme="light"] .header { backdrop-filter: saturate(120%) blur(10px); background: rgba(255,255,255,.75); border-bottom: 1px solid rgba(0,0,0,.06); }
+html[data-theme="light"] .header { position: fixed; top: 0; left: 0; right: 0; backdrop-filter: saturate(120%) blur(10px); background: rgba(255,255,255,.75); border-bottom: 1px solid rgba(0,0,0,.06); }
 html[data-theme="light"] .footer { background: rgba(255,255,255,.8); border-top: 1px solid rgba(0,0,0,.06); }
 
 /* Light: language switch visuals */
@@ -509,3 +495,69 @@ html[data-theme="light"] .contact-info .socials a { background: rgba(0,0,0,.06);
 
 /* Place theme toggle before language switcher in Arabic (RTL) */
 html[lang="ar"] header.header .nav #themeToggle { order: -2 !important; margin-right: 12px !important; margin-left: 0 !important; align-self: center; } 
+
+/* Navbar order consistency for Arabic/RTL: keep logo left, menu right, then lang, then theme */
+html[lang="ar"] header.header .nav { flex-direction: row !important; justify-content: flex-end !important; }
+html[lang="ar"] header.header .nav .nav-menu { order: initial !important; }
+html[lang="ar"] header.header .nav .lang-switch { order: initial !important; margin-right: 0 !important; margin-left: 12px !important; }
+html[lang="ar"] header.header .nav #themeToggle { order: initial !important; margin-left: 0 !important; }
+/* Do not reverse menu items in RTL */
+html[lang="ar"][dir="rtl"] .nav .nav-menu { flex-direction: row !important; } 
+
+/* Final overrides: keep navbar order identical in Arabic/RTL */
+html[lang="ar"] .nav,
+html[dir="rtl"] .nav { flex-direction: row !important; }
+html[lang="ar"] .nav .nav-menu,
+html[dir="rtl"] .nav .nav-menu { order: 0 !important; flex-direction: row !important; }
+html[lang="ar"] .nav .lang-switch,
+html[dir="rtl"] .nav .lang-switch { order: 1 !important; margin-left: 12px !important; margin-right: 0 !important; }
+html[lang="ar"] .nav #themeToggle,
+html[dir="rtl"] .nav #themeToggle { order: 2 !important; margin-left: 0 !important; margin-right: 0 !important; }
+/* Ensure container keeps logo on the left and nav to the right */
+html[lang="ar"] .nav-container,
+html[dir="rtl"] .nav-container { flex-direction: row !important; } 
+
+/* Definitive navbar structure overrides (Arabic/RTL): match English order */
+header.header .nav { flex-direction: row !important; }
+header.header .nav > .nav-menu { order: 0 !important; flex-direction: row !important; }
+header.header .nav > .lang-switch { order: 1 !important; margin-left: 12px !important; margin-right: 0 !important; }
+header.header .nav > #themeToggle { order: 2 !important; margin-left: 0 !important; margin-right: 0 !important; }
+/* Ensure container keeps logo left and nav on right regardless of dir */
+header.header .nav-container { flex-direction: row !important; justify-content: space-between !important; }
+/* Mobile drawer still starts below fixed header and keeps item order */
+@media (max-width: 900px) {
+	header.header .nav .nav-menu { inset: 72px 12px auto 12px !important; flex-direction: column !important; }
+} 
+
+/* Force LTR flow for navbar structure so Arabic is not mirrored */
+header.header, header.header .nav, header.header .nav .nav-menu { direction: ltr !important; }
+/* Keep link text readable; allow anchors themselves to render RTL text naturally */
+header.header .nav .nav-menu a { unicode-bidi: plaintext; }
+@media (max-width: 900px) {
+	header.header .nav .nav-menu { direction: ltr !important; }
+} 
+
+/* Improve nav CTA contrast on hover (dark theme) */
+.nav .btn.btn-sm:hover { background: var(--primary-600); color: #061015; box-shadow: 0 8px 22px -12px rgba(46,194,126,.55); }
+
+/* Light theme CTA hover contrast */
+html[data-theme="light"] .nav .btn.btn-sm { background: var(--primary); color: #ffffff; }
+html[data-theme="light"] .nav .btn.btn-sm:hover { background: #179c64; color: #ffffff; box-shadow: 0 8px 22px -12px rgba(31,174,111,.45); }
+
+/* Light theme: ensure mobile nav menu panel is visible and readable */
+@media (max-width: 900px) {
+	html[data-theme="light"] .nav .nav-menu { background: rgba(255,255,255,.98); border-color: rgba(0,0,0,.12); }
+	html[data-theme="light"] .nav .nav-menu a { color: var(--text); }
+	html[data-theme="light"] .nav .nav-menu a:hover { background: rgba(0,0,0,.06); }
+} 
+
+/* Tablet-and-down: use overlay menu styling too */
+@media (max-width: 1024px) {
+	.nav .nav-menu { position: fixed; inset: 72px 12px auto 12px; background: rgba(10,14,18,.95); backdrop-filter: blur(12px); border: 1px solid rgba(255,255,255,.12); border-radius: 14px; padding: 12px; display: grid; gap: 6px; transform-origin: top right; transform: scale(.98); opacity: 0; pointer-events: none; }
+	.nav.open .nav-menu { opacity: 1; transform: scale(1); pointer-events: auto; }
+	.nav-toggle { display: block; }
+	/* Light theme variant */
+	html[data-theme="light"] .nav .nav-menu { background: rgba(255,255,255,.98); border-color: rgba(0,0,0,.12); }
+	html[data-theme="light"] .nav .nav-menu a { color: var(--text); }
+	html[data-theme="light"] .nav .nav-menu a:hover { background: rgba(0,0,0,.06); }
+} 
