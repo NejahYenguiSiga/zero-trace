@@ -177,7 +177,7 @@ p { margin: 0 0 16px; color: var(--muted); }
 
 /* Contact */
 .contact-grid { display: grid; grid-template-columns: 1fr 1.2fr; gap: 26px; align-items: stretch; }
-.contact-info { background: transparent; border: 0; border-radius: 0; padding: 0; box-shadow: none; display: flex; flex-direction: column; height: 100%; }
+.contact-info { background: transparent; border: 0; border-radius: 0; padding: 0; box-shadow: none; display: flex; flex-direction: column; }
 .contact-info .contact-list { list-style: none; padding: 0; margin: 16px 0 0; display: grid; gap: 8px; }
 .contact-info .contact-list li { display: flex; align-items: center; gap: 10px; color: var(--muted); }
 .contact-info .socials a { display:inline-flex; align-items:center; justify-content:center; width: 32px; height: 32px; border-radius: 8px; background: rgba(255,255,255,.06); color: var(--text); text-decoration: none; font-weight: 700; }
@@ -251,7 +251,7 @@ input:focus, textarea:focus { border-color: var(--secondary); box-shadow: 0 0 0 
   .form-row { grid-template-columns: 1fr; }
 
   /* Map card */
-  .map-embed { padding-bottom: 60%; }
+  .map-embed { padding-bottom: 10%; }
 } 
 
 /* Global box sizing to fix input overflow */
@@ -560,4 +560,113 @@ html[data-theme="light"] .nav .btn.btn-sm:hover { background: #179c64; color: #f
 	html[data-theme="light"] .nav .nav-menu { background: rgba(255,255,255,.98); border-color: rgba(0,0,0,.12); }
 	html[data-theme="light"] .nav .nav-menu a { color: var(--text); }
 	html[data-theme="light"] .nav .nav-menu a:hover { background: rgba(0,0,0,.06); }
+} 
+
+/* Map sizing consistency */
+.map-card { width: 100%; }
+.map-embed { position: relative; width: 100%; }
+.map-embed .map-frame { position: static; width: 100%; height: auto; aspect-ratio: 16 / 9; }
+
+/* Remove flex stretching that can create gaps on some viewports */
+.contact-info .map-card { height: auto; }
+.map-embed { display: block; }
+
+/* Desktop max height cap */
+.map-embed .map-frame { max-height: 460px; }
+
+@media (max-width: 900px) {
+	/* Single source of truth for mobile map size */
+	.map-embed .map-frame { max-height: 260px !important; }
+} 
+
+/* Contact grid: consistent columns across languages */
+.contact-grid { grid-template-columns: 1fr 1.2fr; }
+html[dir="rtl"] .contact-grid { grid-template-columns: 1fr 1.2fr; }
+
+/* Ensure form controls keep full width in both dirs */
+.contact-form { overflow: hidden; display: flex; flex-direction: column; }
+.form-row { display: grid; grid-template-columns: 1fr 1fr; gap: 14px; min-width: 0; }
+.form-field input, .form-field textarea { width: 100%; min-width: 0; }
+
+@media (max-width: 900px) {
+	.contact-grid { grid-template-columns: 1fr; }
+	html[dir="rtl"] .contact-grid { grid-template-columns: 1fr; }
+} 
+
+/* Contact layout balance */
+.section.contact .container { align-items: stretch; }
+.contact-grid { align-items: stretch; gap: 26px; }
+.contact-info, .contact-form { height: 100%; }
+
+/* Slightly increase form column for better balance */
+.contact-grid { grid-template-columns: 1fr 1.2fr; }
+html[dir="rtl"] .contact-grid { grid-template-columns: 1fr 1.2fr; }
+
+/* Ensure map card matches adjacent column height visually */
+.contact-info .map-card { height: auto; } 
+
+/* Equal-height columns; constrain map height to align with form */
+.contact-grid { align-items: stretch; }
+.contact-info { display: flex; flex-direction: column; }
+.contact-info .map-card { margin-top: 12px; flex: 1 1 auto; display: flex; flex-direction: column; }
+.map-embed { flex: 1 1 auto; display: flex; }
+.map-embed .map-frame { flex: 1 1 auto; width: 100%; height: 100%; max-height: 420px; }
+
+@media (min-width: 1200px) {
+	.map-embed .map-frame { max-height: 460px; }
+} 
+
+/* Normalize contact columns: equal padding and box model */
+.contact-info, .contact-form { box-sizing: border-box; padding: 0; }
+.contact-form { padding: 18px; }
+html[dir="rtl"] .contact-info, html[dir="rtl"] .contact-form { align-items: stretch !important; } 
+
+/* Contact order: keep same order in RTL as LTR to ensure consistent widths */
+html[dir="rtl"] .contact-info { order: initial !important; }
+html[dir="rtl"] .contact-form { order: initial !important; }
+
+/* Uniform column widths across languages */
+html[dir="rtl"] .contact-grid { grid-template-columns: 1fr 1.2fr !important; } 
+
+/* Pin Contact layout order across all languages: info left, form right */
+.section.contact .contact-grid { display: grid; grid-template-areas: "info form"; }
+.section.contact .contact-info { grid-area: info; }
+.section.contact .contact-form { grid-area: form; }
+html[dir="rtl"] .section.contact .contact-grid { grid-template-areas: "info form" !important; grid-template-columns: 1fr 1.2fr !important; } 
+
+/* In Arabic, keep contact columns LTR (info left, form right), but content RTL */
+html[dir="rtl"] .section.contact .contact-grid { direction: ltr !important; }
+html[dir="rtl"] .section.contact .contact-info,
+html[dir="rtl"] .section.contact .contact-form { direction: rtl; } 
+
+/* Ensure columns can shrink on small screens */
+.contact-info, .contact-form { min-width: 0; }
+
+/* Phone layout: stack Contact section info first, form second */
+@media (max-width: 900px) {
+	.section.contact .contact-grid { grid-template-columns: 1fr !important; grid-template-areas: "info" "form" !important; row-gap: 8px; align-items: start !important; }
+	html[dir="rtl"] .section.contact .contact-grid { direction: ltr !important; grid-template-columns: 1fr !important; grid-template-areas: "info" "form" !important; row-gap: 8px; align-items: start !important; }
+	/* Stop map/info panel from stretching tall; let it size to content */
+	.contact-info { display: block; height: auto !important; margin-bottom: 8px !important; }
+	.contact-form { height: auto !important; }
+	.contact-info .map-card { margin: 12px 0 0 0 !important; display: block; height: auto !important; }
+	.map-embed { display: block; }
+	.map-embed .map-frame { width: 100%; height: auto; max-height: 300px; }
+} 
+
+@media (max-width: 900px) {
+	.section.contact .contact-grid { grid-template-columns: 1fr !important; grid-template-areas: "info" "form" !important; row-gap: 0 !important; align-items: start !important; }
+	html[dir="rtl"] .section.contact .contact-grid { direction: ltr !important; grid-template-columns: 1fr !important; grid-template-areas: "info" "form" !important; row-gap: 0 !important; align-items: start !important; }
+	/* Collapse any margins/padding between info/map and form */
+	.contact-info, .contact-form { margin: 0 !important; padding-top: 0 !important; padding-bottom: 0 !important; }
+	.contact-form { margin-top: 8px !important; }
+	.contact-info .map-card { margin: 0 !important; height: auto !important; }
+	.map-embed { margin: 0 !important; }
+	.map-embed .map-frame { width: 100%; height: auto; max-height: 280px; margin: 0 !important; }
+} 
+
+@media (max-width: 900px) {
+	/* Reduce section padding to remove large vertical gap */
+	.section.contact { padding-top: 24px !important; padding-bottom: 24px !important; }
+	.container { padding-left: 12px; padding-right: 12px; }
 } 
