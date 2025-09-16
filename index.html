@@ -9,8 +9,13 @@
   <link rel="canonical" href="https://zerotrace.tn/" />
   <meta name="robots" content="index,follow" />
   <meta name="theme-color" content="#0b0f12" />
-  <!-- Hreflang (update when language routes are live) -->
+  <meta http-equiv="Content-Security-Policy" content="default-src 'self'; script-src 'self' https://cdn.jsdelivr.net 'unsafe-inline'; connect-src 'self' https://api.emailjs.com; style-src 'self' 'unsafe-inline' https://fonts.googleapis.com; img-src 'self' data: https://images.unsplash.com https://flagcdn.com; font-src 'self' https://fonts.gstatic.com; frame-src https://www.google.com; upgrade-insecure-requests" />
+  <!-- Hreflang (language routes) -->
   <link rel="alternate" href="https://zerotrace.tn/" hreflang="en" />
+  <link rel="alternate" href="https://zerotrace.tn/fr/" hreflang="fr" />
+  <link rel="alternate" href="https://zerotrace.tn/es/" hreflang="es" />
+  <link rel="alternate" href="https://zerotrace.tn/de/" hreflang="de" />
+  <link rel="alternate" href="https://zerotrace.tn/ar/" hreflang="ar" />
   <link rel="alternate" href="https://zerotrace.tn/" hreflang="x-default" />
   <!-- Open Graph -->
   <meta property="og:type" content="website" />
@@ -18,7 +23,7 @@
   <meta property="og:title" content="Zero Trace — B2B Cleaning & Sanitization" />
   <meta property="og:description" content="Compliance-first B2B deep cleaning, disinfection, odor control and eco-conscious sanitization." />
   <meta property="og:url" content="https://zerotrace.tn/" />
-  <meta property="og:image" content="https://images.unsplash.com/photo-1581094271901-8022df4466f3?q=80&w=1200&auto=format&fit=crop" />
+  <meta property="og:image" content="https://zerotrace.tn/images/Hotels.jpg" />
   <meta property="og:locale" content="en_US" />
   <meta property="og:locale:alternate" content="fr_FR" />
   <meta property="og:locale:alternate" content="es_ES" />
@@ -28,13 +33,13 @@
   <meta name="twitter:card" content="summary_large_image" />
   <meta name="twitter:title" content="Zero Trace — B2B Cleaning & Sanitization" />
   <meta name="twitter:description" content="Compliance-first B2B deep cleaning, disinfection, odor control and eco-conscious sanitization." />
-  <meta name="twitter:image" content="https://images.unsplash.com/photo-1581094271901-8022df4466f3?q=80&w=1200&auto=format&fit=crop" />
+  <meta name="twitter:image" content="https://zerotrace.tn/images/Hotels.jpg" />
 
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&family=Manrope:wght@400;600;700;800&display=swap" rel="stylesheet">
   <link rel="stylesheet" href="styles.css" />
-  <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 64 64'%3E%3Ccircle cx='32' cy='32' r='30' fill='%230b5'%3E%3C/circle%3E%3Cpath d='M20 34l8 8L46 24' stroke='%23fff' stroke-width='6' stroke-linecap='round' stroke-linejoin='round' fill='none'/%3E%3C/svg%3E" />
+  <link rel="icon" href="/images/logo.png" />
 
   <script type="application/ld+json">
   {
@@ -349,21 +354,21 @@
     <!-- Insights Section -->
     <section id="insights" class="section">
       <div class="container">
-        <p class="eyebrow center">Insights</p>
-        <h2 class="center">Guides & Best Practices</h2>
-        <p class="center section-intro">Practical, verifiable methods we use across industrial environments.</p>
+        <p class="eyebrow center" data-i18n="insights.eyebrow">Insights</p>
+        <h2 class="center" data-i18n="insights.title">Guides & Best Practices</h2>
+        <p class="center section-intro" data-i18n="insights.intro">Practical, verifiable methods we use across industrial environments.</p>
         <div class="cards services">
           <article id="insight-atp-testing" class="card reveal-up">
             <div class="icon">🧪</div>
-            <h3>ATP Testing for Sanitization: Thresholds and Reporting</h3>
-            <p>Why ATP matters, how we sample, and the pass/fail ranges we target in high‑risk zones.</p>
-            <a href="#contact" class="btn btn-outline">Talk to an expert</a>
+            <h3 data-i18n="insights.a1.title">ATP Testing for Sanitization: Thresholds and Reporting</h3>
+            <p data-i18n="insights.a1.desc">Why ATP matters, how we sample, and the pass/fail ranges we target in high‑risk zones.</p>
+            <a href="#contact" class="btn btn-outline" data-i18n="insights.a1.cta">Talk to an expert</a>
           </article>
           <article id="insight-odor-control" class="card reveal-up">
             <div class="icon">🌫️</div>
-            <h3>Odor Control in Municipal Waste Sites: A Practical Playbook</h3>
-            <p>Source identification, neutralization chemistry, and measurable suppression metrics.</p>
-            <a href="#contact" class="btn btn-outline">Request the full SOP</a>
+            <h3 data-i18n="insights.a2.title">Odor Control in Municipal Waste Sites: A Practical Playbook</h3>
+            <p data-i18n="insights.a2.desc">Source identification, neutralization chemistry, and measurable suppression metrics.</p>
+            <a href="#contact" class="btn btn-outline" data-i18n="insights.a2.cta">Request the full SOP</a>
           </article>
         </div>
       </div>
@@ -372,20 +377,20 @@
     <!-- FAQ (visible) -->
     <section id="faq" class="section bg-contrast">
       <div class="container">
-        <p class="eyebrow center">FAQ</p>
-        <h2 class="center">Common Questions</h2>
+        <p class="eyebrow center" data-i18n="faq.eyebrow">FAQ</p>
+        <h2 class="center" data-i18n="faq.title">Common Questions</h2>
         <div class="cards services">
           <article class="card reveal-up">
-            <h3>Which industries do you serve?</h3>
-            <p>We support poultry farms, olive‑oil presses, hotels and municipal waste sites with compliance‑first cleaning.</p>
+            <h3 data-i18n="faq.q1">Which industries do you serve?</h3>
+            <p data-i18n="faq.a1">We support poultry farms, olive‑oil presses, hotels and municipal waste sites with compliance‑first cleaning.</p>
           </article>
           <article class="card reveal-up">
-            <h3>Do you provide emergency cleaning?</h3>
-            <p>Yes. We mobilize rapid containment and disinfection protocols for critical events.</p>
+            <h3 data-i18n="faq.q2">Do you provide emergency cleaning?</h3>
+            <p data-i18n="faq.a2">Yes. We mobilize rapid containment and disinfection protocols for critical events.</p>
           </article>
           <article class="card reveal-up">
-            <h3>How can we request a quote?</h3>
-            <p>Use the contact form or email contact@zerotrace.tn with your site details. We reply within one business day.</p>
+            <h3 data-i18n="faq.q3">How can we request a quote?</h3>
+            <p data-i18n="faq.a3">Use the contact form or email contact@zerotrace.tn with your site details. We reply within one business day.</p>
           </article>
         </div>
       </div>
@@ -397,7 +402,7 @@
         <div class="contact-grid">
           <div class="contact-info">
             <h2>Contact <span class="accent">Us</span></h2>
-            <p>Tell us about your facility and requirements. We’ll respond within 48 business hours.</p>
+            <p>Tell us about your facility and requirements. We’ll respond within one business day.</p>
             <ul class="contact-list">
               <li><span>📍</span> Sfax, Sakiet Ezzit, Tunisia</li>
               <li><span>📞</span> +216 27 91 27 12</li>
@@ -450,6 +455,8 @@
               <textarea id="message" name="message" rows="5" placeholder="Tell us about your facility, timelines, and scope." required></textarea>
               <small class="error" aria-live="polite"></small>
             </div>
+            <input type="text" name="company_website" id="hp" class="sr-only" tabindex="-1" autocomplete="off" aria-hidden="true" />
+            <input type="hidden" name="ts" id="ts" value="" />
             <button type="submit" class="btn btn-primary btn-block"><span class="icon-left">✉️</span>Send Email</button>
             <p id="formStatus" class="form-status" role="status" aria-live="polite"></p>
           </form>

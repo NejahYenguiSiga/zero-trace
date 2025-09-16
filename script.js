@@ -82,8 +82,69 @@ const io = new IntersectionObserver((entries) => {
       io.unobserve(entry.target);
     }
   }
-}, { threshold: 0.2 });
+}, { threshold: 0.5, rootMargin: '0px' });
 revealEls.forEach((el) => io.observe(el));
+
+// Auto-tag reveal classes for key sections that may lack them and observe
+function ensureRevealTargets() {
+  const selectors = [
+    '#services .cards.services > *',
+    '#sectors .cards.sectors > *',
+    '#clients .cards.clients > *',
+    '#why .benefits > *',
+    '#why .highlight-card',
+    '#insights .cards.services > *',
+    '#faq .cards.services > *',
+    '#contact .contact-form > *',
+    '#contact .contact-info > *',
+    '#contact .map-card',
+    '#about .split-content > *',
+    '.section-split .sector-media'
+  ];
+  selectors.forEach((selector) => {
+    document.querySelectorAll(selector).forEach((el) => {
+      const hasReveal = el.classList.contains('reveal-up') || el.classList.contains('reveal-left') || el.classList.contains('reveal-right') || el.classList.contains('revealed');
+      if (!hasReveal) el.classList.add('reveal-up');
+      io.observe(el);
+    });
+  });
+}
+if (document.readyState === 'loading') {
+  document.addEventListener('DOMContentLoaded', ensureRevealTargets);
+} else {
+  ensureRevealTargets();
+}
+
+// Apply small stagger inside common grids/cards
+function applyRevealStagger() {
+  const groups = [
+    '.cards.services', '.cards.sectors', '.cards.clients', '.benefits', '.contact-list',
+    '#insights .cards.services', '#faq .cards.services', '#contact .contact-form', '#contact .contact-info', '#why .highlight-card', '#about .split-content'
+  ];
+  groups.forEach((selector) => {
+    document.querySelectorAll(`${selector} > *`).forEach((item, idx) => {
+      item.style.setProperty('--reveal-delay', `${Math.min(idx * 50, 250)}ms`);
+    });
+  });
+}
+if (document.readyState === 'loading') {
+  document.addEventListener('DOMContentLoaded', applyRevealStagger);
+} else {
+  applyRevealStagger();
+}
+
+// Fallback: only if IO unsupported, force-show after load
+if (!('IntersectionObserver' in window)) {
+  window.addEventListener('load', () => {
+    setTimeout(() => {
+      ensureRevealTargets();
+      applyRevealStagger();
+      document.querySelectorAll('.reveal-up, .reveal-left, .reveal-right').forEach((el) => {
+        el.classList.add('revealed');
+      });
+    }, 1200);
+  });
+}
 
 // Footer year
 const yearEl = document.getElementById('year');
@@ -222,6 +283,10 @@ if (document.readyState === 'loading') {
 }
 
 if (form) {
+  // Init timestamp for spam protection
+  const tsEl = document.getElementById('ts');
+  if (tsEl) tsEl.value = String(Date.now());
+
   // Live translated validation on input/blur
   ['input','blur','change'].forEach((evt) => {
     form.addEventListener(evt, (e) => {
@@ -236,6 +301,16 @@ if (form) {
   form.addEventListener('submit', async (e) => {
     e.preventDefault();
     statusEl.textContent = '';
+
+    // Honeypot & time-to-submit
+    const hp = document.getElementById('hp');
+    const tsVal = (document.getElementById('ts') && document.getElementById('ts').value) || '';
+    const elapsed = tsVal ? (Date.now() - Number(tsVal)) : 0;
+    if ((hp && hp.value && hp.value.trim().length > 0) || elapsed < 1500) {
+      statusEl.textContent = t('status.failed');
+      statusEl.style.color = '#ef476f';
+      return;
+    }
 
     if (!validateForm()) {
       statusEl.textContent = t('errors.fix');
@@ -287,6 +362,7 @@ if (form) {
       statusEl.textContent = t('status.sent');
       statusEl.style.color = '#2ec27e';
       form.reset();
+      if (tsEl) tsEl.value = String(Date.now());
       setTimeout(() => { if (statusEl) statusEl.textContent = ''; }, 4000);
     } catch (err) {
       console.error('EmailJS error', err && err.status, err && err.text, err);
@@ -297,6 +373,22 @@ if (form) {
     }
   });
 }
+
+// Add rel noopener to external links
+(function secureExternalLinks(){
+  try {
+    const anchors = document.querySelectorAll('a[href^="http"]');
+    anchors.forEach(a => {
+      const isExternal = a.hostname && a.hostname !== location.hostname;
+      if (isExternal) {
+        const rel = (a.getAttribute('rel') || '').split(' ').filter(Boolean);
+        if (!rel.includes('noopener')) rel.push('noopener');
+        if (!rel.includes('noreferrer')) rel.push('noreferrer');
+        a.setAttribute('rel', rel.join(' '));
+      }
+    });
+  } catch (_) {}
+})();
 
 // Interactive Map: provider switch
 const mapCard = document.querySelector('.map-card');
@@ -398,7 +490,7 @@ const translations = {
     'testimonials.title': 'What Our Clients Say',
     'testimonials.desc': 'Coming soon. Real stories from operations leaders and facility managers.',
     'contact.title': 'Contact <span class="accent">Us</span>',
-    'contact.desc': 'Tell us about your facility and requirements. We’ll respond within one business day.',
+    'contact.desc': 'Tell us about your facility and requirements. We\'ll respond within one business day.',
     'contact.addr': 'Sfax, Sakiet Ezzit, Tunisia',
     'form.name': 'Name', 'form.namePh': 'Jane Doe',
     'form.company': 'Company', 'form.companyPh': 'Your Company',
@@ -444,12 +536,12 @@ const translations = {
     'meta.description': 'Zero Trace fournit un nettoyage en profondeur B2B, désinfection, contrôle des odeurs et assainissement écoresponsable pour les secteurs industriels.',
     'nav.home': 'Accueil', 'nav.about': 'À propos', 'nav.services': 'Services', 'nav.sectors': 'Secteurs', 'nav.cta': 'Contactez‑nous',
     'hero.title': 'Zero Trace — <span class="accent">Aucune trace</span> après notre intervention.',
-    'hero.subtitle': 'Nettoyage et désinfection B2B pour les environnements industriels. Des résultats écoresponsables et conformes.',
+    'hero.subtitle': 'Nettoyage et désinfection B2B pour les environnements industriels. Des résultats conformes et écoresponsables.',
     'hero.ctaPrimary': '✉️ Contactez‑nous', 'hero.ctaSecondary': 'Découvrir les services', 'hero.badgeEco': 'Écoresponsable', 'hero.badgeCompliance': 'Conformité', 'hero.badgeFast': 'Intervention rapide',
     'about.title': 'À propos de <span class="accent">Zero Trace</span>',
     'about.desc': 'Nous sommes spécialisés dans le nettoyage et la désinfection B2B répondant aux normes les plus strictes.',
     'about.point1': 'Méthodes écoresponsables et scientifiques', 'about.point2': 'Protocoles et rapports conformes', 'about.point3': 'Équipements et EPI industriels', 'about.point4': 'Déploiement rapide et maintenance planifiée',
-    'services.title': 'Nos <span class="accent">Services</span>', 'services.intro': 'Programmes performants et fiables pour l’industrie.',
+    'services.title': 'Nos <span class="accent">Services</span>', 'services.intro': 'Programmes performants et fiables pour l\'industrie.',
     'services.s1.title': 'Désinfection approfondie', 'services.s1.desc': 'Désinfection de grade hospitalier et tests ATP.',
     'services.s2.title': 'Dégraissage industriel', 'services.s2.desc': 'Dégraissants puissants et nettoyage moussant.',
     'services.s3.title': 'Contrôle des odeurs', 'services.s3.desc': 'Neutralisation des sources bactériennes et organiques.',
@@ -457,14 +549,14 @@ const translations = {
     'services.s5.title': 'Crises et épidémies', 'services.s5.desc': 'Confinement rapide et désinfection.',
     'sectors.title': 'Secteurs que nous <span class="accent">servons</span>',
     'sectors.s1.title': 'Élevages avicoles', 'sectors.s1.desc': 'Biosécurité et contrôle de contamination.',
-    'sectors.s2.title': 'Moulins à huile d’olive', 'sectors.s2.desc': 'Élimination des résidus tout en protégeant le grade alimentaire.',
+    'sectors.s2.title': 'Moulins à huile d\'olive', 'sectors.s2.desc': 'Élimination des résidus tout en protégeant le grade alimentaire.',
     'sectors.s3.title': 'Hôtels', 'sectors.s3.desc': 'Propreté back-office et désinfection front-office.',
     'sectors.s4.title': 'Sites de déchets municipaux', 'sectors.s4.desc': 'Suppression des odeurs et décontamination.',
-    'clients.title': 'Nos <span class="accent">Clients</span>', 'clients.intro': 'De nombreux acteurs de l’agriculture, de l’hôtellerie et des services publics nous font confiance.',
+    'clients.title': 'Nos <span class=\"accent\">Clients</span>', 'clients.intro': 'De nombreux acteurs de l\'agriculture, de l\'hôtellerie et des services publics nous font confiance.',
     'why.title': 'Pourquoi nous <span class="accent">choisir</span>', 'why.b1': '<strong>Sans trace</strong> — aspect impeccable et résultats mesurables.', 'why.b2': '<strong>Conformité</strong> — alignée aux régulations.', 'why.b3': '<strong>Sécurité</strong> — EPI et contrôles stricts.', 'why.b4': '<strong>Rapidité</strong> — mobilisation rapide.', 'why.b5': '<strong>Écoresponsable</strong> — eau réduite, chimie responsable.', 'why.eyebrow': 'Garantie', 'why.cardTitle': 'Nous ne laissons aucune trace.', 'why.cardDesc': 'Notre nom est notre promesse.', 'why.cta': '✉️ Contactez‑nous',
     'testimonials.eyebrow': 'Témoignages', 'testimonials.title': 'Ce que disent nos clients', 'testimonials.desc': 'Bientôt disponible.',
     'contact.title': 'Contactez-<span class="accent">nous</span>', 'contact.desc': 'Parlez-nous de votre site. Réponse sous un jour ouvrable.', 'contact.addr': 'Sfax, Sakiet Ezzit, Tunisie',
-    'form.name': 'Nom', 'form.namePh': 'Jean Dupont', 'form.company': 'Société', 'form.companyPh': 'Votre société', 'form.email': 'E-mail', 'form.emailPh': 'vous@societe.com', 'form.phone': 'Téléphone', 'form.phonePh': '+216 27 91 27 12', 'form.message': 'Message', 'form.messagePh': 'Décrivez le site, les délais et le périmètre.', 'form.cta': '✉️ Envoyer l’email',
+    'form.name': 'Nom', 'form.namePh': 'Jean Dupont', 'form.company': 'Société', 'form.companyPh': 'Votre société', 'form.email': 'E-mail', 'form.emailPh': 'vous@societe.com', 'form.phone': 'Téléphone', 'form.phonePh': '+216 27 91 27 12', 'form.message': 'Message', 'form.messagePh': 'Décrivez le site, les délais et le périmètre.', 'form.cta': '✉️ Envoyer l\'email',
     'map.title': 'Nos bureaux', 'map.desc': 'Carte interactive. Faites glisser, zoomez, changez.', 'map.open': 'Ouvrir',
     'footer.copy': '© <span id="year"></span> Zero Trace. Tous droits réservés.',
     'errors.nameRequired': 'Veuillez saisir votre nom.',
@@ -603,16 +695,16 @@ const translations = {
     'meta.description': 'زيرو تريس تقدم تنظيفًا عميقًا وتعقيمًا للشركات، التحكم في الروائح، وتعقيم صديق للبيئة للقطاعات الصناعية.',
     'nav.home': 'الرئيسية', 'nav.about': 'من نحن', 'nav.services': 'الخدمات', 'nav.sectors': 'القطاعات', 'nav.cta': 'اتصل بنا',
     'hero.title': 'زيرو تريس — <span class="accent">بلا أثر</span> بعد انتهاء عملنا.',
-    'hero.subtitle': 'تنظيف وتعقيم احترافي للقطاعات الصناعية بنتائج صديقة للبيئة ومتوافقة.',
+    'hero.subtitle': 'تنظيف وتعقيم بين الأعمال (B2B) للبيئات الصناعية. نتائج متوافقة وصديقة للبيئة.',
     'hero.ctaPrimary': '✉️ اتصل بنا', 'hero.ctaSecondary': 'استكشف الخدمات', 'hero.badgeEco': 'صديق للبيئة', 'hero.badgeCompliance': 'امتثال', 'hero.badgeFast': 'استجابة سريعة',
     'about.title': 'عن <span class="accent">زيرو تريس</span>', 'about.desc': 'نختص بالتنظيف والتعقيم للشركات وفق أعلى المعايير.', 'about.point1': 'أساليب علمية صديقة للبيئة', 'about.point2': 'بروتوكولات وتقارير امتثال', 'about.point3': 'معدات ووسائل حماية صناعية', 'about.point4': 'استجابة سريعة وجدولة منتظمة',
-    'services.title': 'خدماتنا <span class="accent">الرئيسية</span>', 'services.intro': 'برامج موثوقة للأعمال الصناعية.',
+    'services.title': 'خدماتنا <span class=\"accent\">الرئيسية</span>', 'services.intro': 'برامج موثوقة للأعمال الصناعية.',
     'services.s1.title': 'تعقيم وتنظيف عميق', 'services.s1.desc': 'تعقيم بمستوى المستشفيات واختبارات ATP.',
     'services.s2.title': 'إزالة الشحوم والرواسب', 'services.s2.desc': 'منظفات قوية وتنظيف رغوي.',
     'services.s3.title': 'مكافحة الروائح', 'services.s3.desc': 'تحييد مصادر الروائح البكتيرية والعضوية.',
     'services.s4.title': 'إزالة ومعالجة النفايات', 'services.s4.desc': 'تعامل آمن وفرز ومعالجة مسبقة.',
     'services.s5.title': 'تنظيف طارئ', 'services.s5.desc': 'احتواء سريع وتعقيم للحالات الحرجة.',
-    'sectors.title': 'القطاعات التي <span class="accent">نخدمها</span>', 'sectors.s1.title': 'مزارع الدواجن', 'sectors.s1.desc': 'أمن حيوي ومكافحة تلوث.', 'sectors.s2.title': 'معاصر زيت الزيتون', 'sectors.s2.desc': 'إزالة الرواسب والزيوت مع الحفاظ على بيئة غذائية.', 'sectors.s3.title': 'الفنادق', 'sectors.s3.desc': 'تنظيف شامل وتعقيم.', 'sectors.s4.title': 'مواقع النفايات البلدية', 'sectors.s4.desc': 'قمع الروائح وإزالة التلوث.',
+    'sectors.title': 'القطاعات التي <span class=\"accent\">نخدمها</span>', 'sectors.s1.title': 'مزارع الدواجن', 'sectors.s1.desc': 'أمن حيوي ومكافحة تلوث.', 'sectors.s2.title': 'معاصر زيت الزيتون', 'sectors.s2.desc': 'إزالة الرواسب والزيوت مع الحفاظ على بيئة غذائية.', 'sectors.s3.title': 'الفنادق', 'sectors.s3.desc': 'تنظيف شامل وتعقيم.', 'sectors.s4.title': 'مواقع النفايات البلدية', 'sectors.s4.desc': 'قمع الروائح وإزالة التلوث.',
     'clients.title': 'عملاؤنا', 'clients.intro': 'موثوق بنا من قبل قادة العمليات.',
     'why.title': 'لماذا <span class="accent">نحن</span>', 'why.b1': '<strong>بلا أثر</strong> — نتيجة نقية.', 'why.b2': '<strong>امتثال</strong> — وفق اللوائح.', 'why.b3': '<strong>سلامة</strong> — معدات وقاية صارمة.', 'why.b4': '<strong>سرعة</strong> — تعبئة سريعة.', 'why.b5': '<strong>صديق للبيئة</strong> — كيمياء مسؤولة.', 'why.eyebrow': 'ضمان', 'why.cardTitle': 'لا نترك أي أثر.', 'why.cardDesc': 'اسمنا هو وعدنا.', 'why.cta': '✉️ اتصل بنا',
     'testimonials.eyebrow': 'آراء العملاء', 'testimonials.title': 'ماذا يقول عملاؤنا', 'testimonials.desc': 'قريباً.',

@@ -154,11 +154,16 @@ input:focus, textarea:focus { border-color: var(--secondary); box-shadow: 0 0 0 
 #backToTop.show { opacity: 1; visibility: visible; transform: translateY(0); }
 
 /* Animations */
-.reveal-up { opacity: 0; transform: translateY(14px); }
-.reveal-left { opacity: 0; transform: translateX(-18px); }
-.reveal-right { opacity: 0; transform: translateX(18px); }
-.revealed { animation: reveal .7s cubic-bezier(.22,1,.36,1) forwards; }
+.reveal-up { opacity: 0; transform: translateY(10px); will-change: opacity, transform; }
+.reveal-left { opacity: 0; transform: translateX(-12px); will-change: opacity, transform; }
+.reveal-right { opacity: 0; transform: translateX(12px); will-change: opacity, transform; }
+.revealed { animation: reveal 1.1s cubic-bezier(.22,1,.36,1) forwards; animation-delay: var(--reveal-delay, 0ms); }
 @keyframes reveal { to { opacity: 1; transform: none; } }
+
+/* Respect users who prefer reduced motion */
+@media (prefers-reduced-motion: reduce) {
+	.reveal-up, .reveal-left, .reveal-right { opacity: 1 !important; transform: none !important; animation: none !important; }
+}
 
 /* Responsive */
 @media (max-width: 1024px) {
@@ -369,3 +374,9 @@ html[lang="ar"] header.header .nav .nav-menu { margin-inline-start: 12px; }
 .btn.loading { position: relative; pointer-events: none; opacity: .85; }
 .btn.loading::after { content: ""; position: absolute; right: 12px; width: 16px; height: 16px; border-radius: 50%; border: 2px solid rgba(255,255,255,.5); border-top-color: rgba(255,255,255,1); animation: spin .7s linear infinite; }
 @keyframes spin { to { transform: rotate(360deg); } } 
+
+html, body { max-width: 100%; overflow-x: hidden; }
+img, video, iframe { max-width: 100%; height: auto; display: block; }
+.section { overflow-x: hidden; }
+.map-frame { width: 100%; border: 0; display: block; }
+@media (max-width: 400px) { .btn { white-space: normal; } } 
