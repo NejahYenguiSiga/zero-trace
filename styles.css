@@ -136,9 +136,16 @@ p { margin: 0 0 16px; color: var(--muted); }
 .hero { min-height: 86vh; display: grid; align-items: center; overflow: hidden; }
 .hero-inner { position: relative; z-index: 2; }
 .hero-media { position: absolute; inset: 0; background-image: linear-gradient(rgba(5,10,16,.6), rgba(5,10,16,.8)), url('https://images.unsplash.com/photo-1581094271901-8022df4466f3?q=80&w=2400&auto=format&fit=crop'); background-size: cover; background-position: center; filter: saturate(1.05); }
-.hero-gradient { position: absolute; inset: auto 0 0 0; height: 260px; background: linear-gradient(to bottom, rgba(10,14,18,0), rgba(10,14,18,1)); z-index: 1; }
+.hero-gradient { position: absolute; inset: auto 0 0 0; height: 18vh; background: linear-gradient(to bottom, rgba(10,14,18,0), rgba(10,14,18,1)); z-index: 1; }
+/* Single source of truth for hero gradient sizing (similar to iframe rules) */
+@media (max-width: 1024px) {
+	.hero-gradient { height: 12vh; }
+}
+@media (max-width: 640px) {
+	.hero-gradient { height: 10vh; }
+}
 .subhead { max-width: 800px; }
-.hero-ctas { display: flex; gap: 12px; margin: 22px 0; }
+.hero-ctas { display: flex; gap: 12px; margin: 22px 0; justify-content: flex-start; width: max-content; }
 .hero-badges { display: flex; flex-wrap: wrap; gap: 10px; }
 .hero-badges span { background: rgba(255,255,255,.06); border: 1px solid rgba(255,255,255,.08); padding: 8px 12px; border-radius: 999px; font-size: .9rem; color: var(--text); }
 
@@ -297,7 +304,18 @@ input:focus, textarea:focus { border-color: var(--secondary); box-shadow: 0 0 0 
 /* RTL support */
 html[dir="rtl"] body { direction: rtl; }
 html[dir="rtl"] .nav .nav-menu { flex-direction: row; }
-html[dir="rtl"] .hero-ctas { flex-direction: row-reverse; }
+html[dir="rtl"] .hero-ctas { flex-direction: row; justify-content: flex-end; }
+html[dir="rtl"] .hero-inner { text-align: right; }
+@media (min-width: 641px) {
+	.hero-inner { text-align: left; }
+	.hero-ctas { display: inline-flex; width: auto; flex-direction: row; align-items: center; justify-content: flex-start; }
+	html[dir="rtl"] .hero-inner { text-align: right; }
+	html[dir="rtl"] .hero-ctas { justify-content: flex-end; }
+}
+@media (min-width: 1025px) {
+	.hero-ctas { justify-content: flex-start; }
+	html[dir="rtl"] .hero-ctas { justify-content: flex-end; }
+}
 html[dir="rtl"] .contact-grid { grid-template-columns: 1.2fr 1fr; }
 html[dir="rtl"] .checklist li { padding-left: 0; padding-right: 28px; }
 html[dir="rtl"] .checklist li::before { left: auto; right: 0; } 
@@ -673,4 +691,42 @@ html[dir="rtl"] .section.contact .contact-form { direction: rtl; }
 	/* Reduce section padding to remove large vertical gap */
 	.section.contact { padding-top: 24px !important; padding-bottom: 24px !important; }
 	.container { padding-left: 12px; padding-right: 12px; }
+} 
+
+@media (max-width: 1024px) {
+	/* Tighter vertical rhythm on tablets */
+	.section { padding: 44px 0; }
+	.hero { min-height: 58vh; align-items: start; }
+} 
+
+@media (min-width: 769px) and (max-width: 1024px) {
+	.hero .subhead { max-width: 680px; }
+	.hero-ctas { margin-top: 16px; }
+} 
+
+/* iPad-specific tuning: collapse hero gradient to remove remaining gap */
+@media screen and (min-width: 768px) and (max-width: 1024px) and (orientation: portrait) {
+	.hero-gradient { height: 6vh !important; }
+	.section { padding: 40px 0; }
+}
+@media screen and (min-width: 768px) and (max-width: 1024px) and (orientation: landscape) {
+	.hero-gradient { height: 5vh !important; }
+}
+/* Newer iPad portrait sizes (Air/Pro 11) */
+@media screen and (min-width: 810px) and (max-width: 1180px) and (orientation: portrait) {
+	.hero-gradient { height: 6vh !important; }
+}
+/* iPad Pro 12.9 landscape */
+@media screen and (min-width: 1024px) and (max-width: 1366px) and (orientation: landscape) {
+	.hero-gradient { height: 5vh !important; }
+} 
+
+/* Final fallback: remove hero gradient on iPad ranges to eliminate gap */
+@media screen and (min-width: 768px) and (max-width: 1366px) {
+	.hero-gradient { height: 0 !important; }
+} 
+
+/* Tablet hard collapse: remove forced hero height and shrink padding */
+@media screen and (min-width: 768px) and (max-width: 1024px) {
+	.section.hero, .hero.section, .hero { min-height: auto !important; padding-top: 28px !important; padding-bottom: 28px !important; }
 } 
